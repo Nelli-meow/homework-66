@@ -11,3 +11,6 @@ export interface IMeals {
   kcal: number,
 }
 
+export interface IMealsApi {
+  [id: string]: IMeals;
+}
