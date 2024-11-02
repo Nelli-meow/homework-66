@@ -14,7 +14,6 @@ const MainPage = () => {
       const response = await axiosAPI.get<IMealsApi>('meals.json');
 
       if(response.data) {
-        console.log(response.data);
         const mealsFromApi = Object.keys(response.data).map(mealKey  => ({
           id: mealKey,
           ...response.data[mealKey],

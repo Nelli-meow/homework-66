@@ -10,10 +10,21 @@ const initialForm = {
 
 interface Props {
   submitForm: (meal: IMeal) => void;
+  mealToEdit?: IMeal;
 }
 
-const MealForm: React.FC<Props> = ({submitForm}) => {
+const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
   const [meal, setMeal] = useState<IMeal>({...initialForm});
+
+  useEffect(() => {
+    if(mealToEdit) {
+      setMeal(prevState => ({
+        ...prevState,
+        ...mealToEdit,
+      }));
+    }
+
+  },[mealToEdit])
 
   const onChangeField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const {name, value} = e.target;
@@ -23,7 +34,6 @@ const MealForm: React.FC<Props> = ({submitForm}) => {
       [name]: value
     }));
   };
-
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

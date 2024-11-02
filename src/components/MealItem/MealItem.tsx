@@ -18,8 +18,8 @@ const MealItem: React.FC<Props> = ({meal}) => {
           <p><strong>{meal.kcal} kcal</strong></p>
         </div>
         <div className="d-flex flex-column">
-          <NavLink to="/" className="btn btn-outline-primary mb-3">Edit</NavLink>
-          <NavLink to="/" className="btn btn-outline-danger">Delete</NavLink>
+          <NavLink to={`/meals/${meal.id}/edit`} className="btn btn-outline-primary mb-3">Edit</NavLink>
+          <button type="button" className="btn btn-outline-danger">Delete</button>
         </div>
       </div>
     </div>
