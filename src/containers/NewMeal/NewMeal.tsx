@@ -9,7 +9,6 @@ const NewMeal = () => {
 
   const submitForm = async (meal: IMeals) => {
     try {
-
       await axiosAPI.post(`/meals.json`, {...meal});
       navigate('/');
     } catch (e) {
