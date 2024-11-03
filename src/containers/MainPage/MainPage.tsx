@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import axiosAPI from '../../axiosAPI.ts';
 import { IMealsApi } from '../../types';
 import MealItem from '../../components/MealItem/MealItem.tsx';
+import axiosApi from '../../axiosAPI.ts';
 
 const MainPage = () => {
   const [meal, setMeal] = useState([]);
-
 
   const fetchData = useCallback( async () => {
     try {
@@ -31,6 +31,16 @@ const MainPage = () => {
     void fetchData();
   },[fetchData])
 
+  const deleteMeal = async (id: string) => {
+    try{
+      await axiosApi.delete(`meals/${id}.json`);
+      void fetchData();
+
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 
   return (
     <>
@@ -45,7 +55,7 @@ const MainPage = () => {
             {
               meal.map((meal) => (
                 <div key={meal.id} className="mb-3">
-                  <MealItem meal={meal}/>
+                  <MealItem meal={meal} onDelete={deleteMeal} />
                 </div>
               ))
             }
