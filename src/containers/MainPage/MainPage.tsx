@@ -4,15 +4,24 @@ import { useCallback, useEffect, useState } from 'react';
 import { IMeals, IMealsApi } from '../../types';
 import MealItem from '../../components/MealItem/MealItem.tsx';
 import axiosApi from '../../axiosAPI.ts';
+import Loader from '../../components/UI/Loader.tsx';
 
 const MainPage = () => {
   const [meal, setMeal] = useState([]);
   const [calories, setCalories] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchData = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axiosApi.get<IMealsApi>('meals.json');
       const mealsResponse = response.data;
+
+      if(mealsResponse === null) {
+        setMeal([]);
+        setCalories(0);
+        return;
+      }
 
       if (mealsResponse) {
         const mealsFromApi = Object.keys(mealsResponse).map(mealKey => {
@@ -23,6 +32,7 @@ const MainPage = () => {
             ...meals,
           };
         });
+
 
         setMeal(mealsFromApi);
 
@@ -35,6 +45,8 @@ const MainPage = () => {
 
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -59,19 +71,21 @@ const MainPage = () => {
         <AddButton/>
       </div>
       <div className="container mt-5">
-        {meal.length === 0 ? (
-          <p className="text-center m-5">No meals :(</p>
-        ) : (
-          <>
-            {
-              meal.map((m) => (
-                <div key={m.id} className="mb-3">
-                  <MealItem meal={m} onDelete={deleteMeal} />
-                </div>
-              ))
-            }
-          </>
-        )}
+        {loading ? (
+          <Loader/>
+        ) : meal.length === 0 ? (
+            <p className="text-center m-5">No meals :(</p>
+          ) : (
+            <>
+              {
+                meal.map((m) => (
+                  <div key={m.id} className="mb-3">
+                    <MealItem meal={m} onDelete={deleteMeal} />
+                  </div>
+                ))
+              }
+            </>
+          )}
       </div>
     </>
   );
