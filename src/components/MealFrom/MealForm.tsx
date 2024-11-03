@@ -57,7 +57,7 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
 
   return (
     <div className="container mt-5">
-      <h2>Add meal</h2>
+      <h2>{mealToEdit ? 'Edit' : 'Add'} meal</h2>
       <form onSubmit={onSubmitForm}>
         <div className="my-3">
           <label htmlFor="category">Category</label>
@@ -81,7 +81,7 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
           <textarea
             value={meal.description}
             onChange={onChangeField}
-            name="description" // Исправление
+            name="description"
             className="form-control"
             aria-label="Meal description"></textarea>
         </div>
@@ -97,7 +97,7 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
           />
         </div>
         <button type="submit" className="btn btn-outline-info mt-2">
-          Save
+          {mealToEdit ? 'Edit' : 'Save'}
         </button>
       </form>
     </div>

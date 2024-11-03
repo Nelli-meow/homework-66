@@ -47,7 +47,13 @@ const EditMeal = () => {
 
   return (
     <div>
-      <MealForm submitForm={submitForm} mealToEdit={meal}/>
+      {meal ?
+      <>
+        <MealForm submitForm={submitForm} mealToEdit={meal}/>
+      </>
+        :
+        <p className="text-center m-5">Meal is not found :(</p>
+      }
     </div>
   );
 };

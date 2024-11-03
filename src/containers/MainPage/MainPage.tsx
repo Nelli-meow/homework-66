@@ -39,13 +39,18 @@ const MainPage = () => {
         <AddButton/>
       </div>
       <div className="container mt-5">
-        {
-          meal.map((meal) => (
-            <div key={meal.id} className="mb-3">
-              <MealItem meal={meal}/>
-            </div>
-          ))
-        }
+        {meal.length === 0 ? (<p className="text-center m-5">No meals :(</p>
+        ) : (
+          <>
+            {
+              meal.map((meal) => (
+                <div key={meal.id} className="mb-3">
+                  <MealItem meal={meal}/>
+                </div>
+              ))
+            }
+          </>
+        )}
       </div>
     </>
   );
