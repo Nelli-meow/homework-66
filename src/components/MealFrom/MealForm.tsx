@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { IMeal } from '../../types';
-import Loader from '../UI/Loader.tsx';
+import ButtonLoading from '../UI/ButtonLoading/ButtonLoading.tsx';
 
 const initialForm = {
   category: '',
@@ -12,11 +12,11 @@ const initialForm = {
 interface Props {
   submitForm: (meal: IMeal) => void;
   mealToEdit?: IMeal;
+  isLoading?: boolean;
 }
 
-const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
+const MealForm: React.FC<Props> = ({submitForm,mealToEdit,isLoading = false}) => {
   const [meal, setMeal] = useState<IMeal>({...initialForm});
-  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if(mealToEdit) {
@@ -39,17 +39,14 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!meal.category || !meal.description || !meal.kcal) {
       alert('Don\'t leave fields blank');
     } else {
       setMeal({...initialForm});
       submitForm({...meal})
-      console.log(meal);
     }
 
-    setLoading(false);
   }
 
   const category = [
@@ -60,9 +57,6 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
   ];
 
   return (
-    loading ? (
-      <Loader/>
-      ) : (
       <div className="container mt-5">
         <h2>{mealToEdit ? 'Edit' : 'Add'} meal</h2>
         <form onSubmit={onSubmitForm}>
@@ -103,12 +97,12 @@ const MealForm: React.FC<Props> = ({submitForm,mealToEdit}) => {
               className="form-control"
             />
           </div>
-          <button type="submit" className="btn btn-outline-info mt-2">
-            {mealToEdit ? 'Edit' : 'Save'}
+          <button type="submit" className="btn btn-outline-info d-flex align-items-center">
+            <span className="me-2">{mealToEdit ? 'Edit' : 'Save'}</span>
+            {isLoading ? <ButtonLoading/> : null}
           </button>
         </form>
       </div>
-    )
   );
 };
 
